@@ -9,6 +9,11 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#16a34a",
+
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+
   "icons": [
     {
       "src": "/images/ogimage1.jpg",
@@ -23,6 +28,7 @@
       "purpose": "maskable"
     }
   ],
+
   "screenshots": [
     {
       "src": "/images/ogimage1.jpg",
