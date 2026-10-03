@@ -188,12 +188,11 @@ export default function RootLayout({
   };
 
   return (
-    <html
+      <html
       lang="en"
       suppressHydrationWarning
     >
       <head>
-        {/* 🟢 Force browser to load Aviorè logo as favicon */}
         <link rel="icon" href="/images/logo.png" sizes="any" />
         <link rel="shortcut icon" href="/images/logo.png" />
         <link rel="apple-touch-icon" href="/images/logo.png" />
@@ -202,25 +201,23 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-[#f8fafc] text-neutral-900 font-sans antialiased selection:bg-emerald-500 selection:text-white pb-24">
-       <ReactQueryProvider>
- <AuthProvider>
-    <AppLocationProvider>
-      <SplashGate>
-        {/* 🟢 App Update & Notification Managers */}
-        <AppUpdateBanner />
-        <PushNotificationManager />
-        <RealtimeNotificationListener />
-        
-        {/* Main App Workspace */}
-        {children}
 
-        {/* Universal Role-Based Bottom Navigation Bar */}
-        <UniversalBottomNav />
-      </SplashGate>
-    </AppLocationProvider>
- </AuthProvider>
-</ReactQueryProvider>
+      <body className="min-h-screen bg-[#00412e] text-neutral-900 font-sans antialiased selection:bg-emerald-500 selection:text-white">
+        <ReactQueryProvider>
+          <AuthProvider>
+            <AppLocationProvider>
+              <SplashGate>
+                <AppUpdateBanner />
+                <PushNotificationManager />
+                <RealtimeNotificationListener />
+
+                {children}
+
+                <UniversalBottomNav />
+              </SplashGate>
+            </AppLocationProvider>
+          </AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

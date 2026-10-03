@@ -1,51 +1,88 @@
-// middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl;
-  const { pathname } = url;
-  const hostname = request.headers.get('host') || '';
+  const pathname = url.pathname;
 
-  // 1. DOMAIN SEPARATION LOGIC
-  const currentHost = hostname.replace(/^(www\.)?/, '');
-  const isSubdomain = currentHost.startsWith('app.');
+  const hostname = request.headers.get("host") || "";
 
-  // If they are visiting the ROOT DOMAIN (aviorgodos.com.ng)
-  if (!isSubdomain) {
-    // Allow static assets, api, and next internals to load normally
-    if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
-      return NextResponse.next();
-    }
+  const currentHost = hostname
+    .split(":")[0]
+    .replace(/^www\./, "");
 
-    // If they are trying to access app routes from the marketing domain, block or redirect them,
-    // OR simply serve the root marketing page (since your marketing page is at app/page.tsx)
-    // By default, a request to aviorgodos.com.ng/ hits app/page.tsx automatically!
+  const isAppSubdomain = currentHost.startsWith("app.");
+
+  /*
+   * ---------------------------------------------------------
+   * MARKETING DOMAIN
+   * ---------------------------------------------------------
+   *
+   * www.aviorego.com.ng
+   * aviorego.com.ng
+   *
+   * Let the marketing site handle its own routes normally.
+   */
+  if (!isAppSubdomain) {
     return NextResponse.next();
   }
 
-  // 2. APP / PWA SUBDOMAIN & ROLE-BASED PROTECTION LOGIC
-  // (This executes when they are on app.aviorgodos.com.ng)
-  const userRole = request.cookies.get('user_role')?.value;
+  /*
+   * ---------------------------------------------------------
+   * PUBLIC APP ROUTES
+   * ---------------------------------------------------------
+   *
+   * These routes must always be accessible without login
+   * or role cookies.
+   */
+  const publicAppRoutes = [
+    "/",
+    "/onboarding",
+    "/login",
+    "/organizer/signup",
+    "/organizer/onboarding",
+  ];
 
-  // Allow public access to organizer signup and onboarding pages
-  if (pathname === '/organizer/signup' || pathname === '/organizer/onboarding') {
+  if (publicAppRoutes.includes(pathname)) {
     return NextResponse.next();
   }
 
-  // Protect Rider routes
-  if (pathname.startsWith('/rider') && userRole !== 'RIDER') {
-    return NextResponse.redirect(new URL('/login', request.url));
+  /*
+   * ---------------------------------------------------------
+   * ROLE-BASED PROTECTION
+   * ---------------------------------------------------------
+   */
+
+  const userRole = request.cookies.get("user_role")?.value;
+
+  // Rider
+  if (
+    pathname.startsWith("/rider") &&
+    userRole !== "RIDER"
+  ) {
+    return NextResponse.redirect(
+      new URL("/login", request.url)
+    );
   }
 
-  // Protect Business routes
-  if (pathname.startsWith('/business') && userRole !== 'BUSINESS_OWNER') {
-    return NextResponse.redirect(new URL('/login', request.url));
+  // Business
+  if (
+    pathname.startsWith("/business") &&
+    userRole !== "BUSINESS_OWNER"
+  ) {
+    return NextResponse.redirect(
+      new URL("/login", request.url)
+    );
   }
 
-  // Protect other Organizer routes (except signup/onboarding)
-  if (pathname.startsWith('/organizer') && userRole !== 'ORGANIZER') {
-    return NextResponse.redirect(new URL('/login', request.url));
+  // Organizer
+  if (
+    pathname.startsWith("/organizer") &&
+    userRole !== "ORGANIZER"
+  ) {
+    return NextResponse.redirect(
+      new URL("/login", request.url)
+    );
   }
 
   return NextResponse.next();
@@ -54,12 +91,9 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
+     * Run middleware on application routes,
+     * but not Next internals or API routes.
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };
