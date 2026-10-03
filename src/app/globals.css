@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+/* 🟢 High-Fidelity Light Mode Card Component (Customer View) */
+.card-light {
+  background-color: #FFFFFF;
+  border: 1px solid #E9ECEF;
+  border-radius: 1.5rem; /* Matches the 2xl roundness standard from marketplace */
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 🟢 High-Fidelity Dark Mode Card Component (Rider/Business View) */
+.card-dark {
+  background-color: #12181D;
+  border: 1px solid #1E262F;
+  border-radius: 1.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 🟢 Global Document Setup */
+body {
+  transition: color 0.3s, background-color 0.3s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.025em;
+  color: #111111;
+  background-color: #F8F9FA;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* 🟢 Dark Mode Body Toggle Structure */
+.dark body {
+  color: #F3F4F6;
+  background-color: #0B0F12;
+}
+
+.smooth-vehicle-marker {
+  transition: transform 0.8s linear, latlng 0.8s linear;
+}

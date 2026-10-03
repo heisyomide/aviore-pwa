@@ -1,0 +1,42 @@
+{
+  "id": "/",
+  "name": "Aviorè Go Logistics",
+  "short_name": "Aviorè Go",
+  "description": "Fast, safe, and reliable parcel delivery across Osun & Oyo State.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#16a34a",
+  "icons": [
+    {
+      "src": "/images/ogimage1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/ogimage1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/ogimage1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Aviorè Go Desktop Dashboard"
+    },
+    {
+      "src": "/images/ogimage1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Aviorè Go Mobile App"
+    }
+  ]
+}
