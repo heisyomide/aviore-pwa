@@ -15,6 +15,7 @@ import RealtimeNotificationListener from "../components/RealtimeNotificationList
 import AppUpdateBanner from "../components/AppUpdateBanner";
 import UniversalBottomNav from "@/src/components/home/UniversalBottomNav";
 import { AppLocationProvider } from "../context/AppLocationContext";
+import InstallPrompt from "../components/InstallPrompt";
 
 export const viewport: Viewport = {
   themeColor: "#16a34a",
@@ -210,6 +211,7 @@ export default function RootLayout({
                 <AppUpdateBanner />
                 <PushNotificationManager />
                 <RealtimeNotificationListener />
+                <InstallPrompt />
 
                 {children}
 
