@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const onboardingSteps = [
@@ -32,19 +32,15 @@ const ONBOARDING_KEY = "aviorego_onboarding_complete";
 
 export default function OnboardingPage() {
   const router = useRouter();
-
   const [currentStep, setCurrentStep] = useState(0);
-  const [checking, setChecking] = useState(true);
 
+  // Onboarding should never be blocked by local checking states since 
+  // SplashGate automatically bypasses the loading wall for /onboarding.
   useEffect(() => {
     const completed = localStorage.getItem(ONBOARDING_KEY);
-
     if (completed === "true") {
-      router.replace("/login");
-      return;
+      router.replace("/dashboard");
     }
-
-    setChecking(false);
   }, [router]);
 
   const current = onboardingSteps[currentStep];
@@ -64,22 +60,6 @@ export default function OnboardingPage() {
     localStorage.setItem(ONBOARDING_KEY, "true");
     router.replace("/login");
   };
-
-  if (checking) {
-    return (
-      <main className="flex min-h-[100svh] items-center justify-center bg-[#00412e]">
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
-            <span className="text-2xl font-black text-white">
-              Avior<span className="text-emerald-400">è</span>Go
-            </span>
-          </div>
-
-          <div className="mx-auto h-5 w-5 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-        </div>
-      </main>
-    );
-  }
 
   return (
     <main className="relative min-h-[100svh] overflow-hidden bg-[#00412e] text-white">
